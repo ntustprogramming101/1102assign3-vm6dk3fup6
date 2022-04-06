@@ -8,11 +8,17 @@ final int START_BUTTON_X = 248;
 final int START_BUTTON_Y = 360;
 
 PImage title, gameover, startNormal, startHovered, restartNormal, restartHovered;
-PImage bg, soil8x24;
+PImage bg, soil8x24, life;
+PImage soil0, soil1, soil2, soil3 ,soil4, soil5, stone1, stone2;
+PImage groundhogDown ,groundhogIdle,groundhogLeft,groundhogRight;
 
 // For debug function; DO NOT edit or remove this!
 int playerHealth = 0;
 float cameraOffsetY = 0;
+    float idleX=320;
+    float idleY=80;
+    float speed=80;
+    
 boolean debugMode = false;
 
 void setup() {
@@ -26,8 +32,23 @@ void setup() {
 	restartNormal = loadImage("img/restartNormal.png");
 	restartHovered = loadImage("img/restartHovered.png");
 	soil8x24 = loadImage("img/soil8x24.png");
+  life = loadImage("img/life.png");
+  stone1 = loadImage("img/stone1.png");
+  stone2 = loadImage("img/stone2.png");
+  groundhogDown=loadImage("img/groundhogDown.png");
+  groundhogIdle=loadImage("img/groundhogIdle.png");  
+  groundhogRight=loadImage("img/groundhogRight.png");
+  groundhogLeft=loadImage("img/groundhogLeft.png");
+  soil0 = loadImage("img/soil0.png");
+  soil1 = loadImage("img/soil1.png");
+  soil2 = loadImage("img/soil2.png");
+  soil3 = loadImage("img/soil3.png");
+  soil4 = loadImage("img/soil4.png");
+  soil5 = loadImage("img/soil5.png");
+
 }
 
+  
 void draw() {
     /* ------ Debug Function ------ 
 
@@ -84,7 +105,26 @@ void draw() {
 		// Soil - REPLACE THIS PART WITH YOUR LOOP CODE!
 		image(soil8x24, 0, 160);
 
+    final int COUNT= 8;
+    float spacingX = width/COUNT;
+    float spacingY = height/COUNT;
+    
+    
+    pushMatrix();
+    translate(0,160);
+    
+    float X=0,Y=0;
+    
+    for(int a =0; a<COUNT; a++){
+    X=a*spacingX;
+    image(stone1,X,Y);
+    Y+=spacingY; 
+    }
+    popMatrix();
 		// Player
+    
+    
+
 
 		// Health UI
 
@@ -121,7 +161,40 @@ void draw() {
 
 void keyPressed(){
 	// Add your moving input code here
-
+if(key==CODED){
+  switch(keyCode){
+    case UP:
+    image(groundhogIdle,idleX,idleY);
+    idleY-=speed;
+      if (idleY < 80) {
+        idleY = 80;
+      }
+    break;
+    case DOWN:
+    image(groundhogDown,idleX,idleY);
+    idleY+=speed;
+    if (idleY > height-80) {
+        idleY = height-80;
+    }
+    break;
+    case LEFT:
+    image(groundhogLeft,idleX,idleY);
+    idleX-=speed;
+    if (idleX < 0) {
+        idleX = 0;
+      }
+    break;
+    case RIGHT:
+    image(groundhogRight,idleX,idleY);
+    idleX+=speed;
+     if (idleX > width-80) {
+        idleX = width-80;
+     }
+    break;
+  }
+}
+    
+    
 	// DO NOT REMOVE OR EDIT THE FOLLOWING SWITCH/CASES
     switch(key){
       case 'w':
